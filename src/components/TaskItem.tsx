@@ -25,7 +25,8 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
     setIsEditing(true);
   };
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    e.preventDefault();
     const updatedTask = {
       title: updatedTitle,
       description: updatedDescription,
@@ -33,7 +34,7 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
     };
     onEdit(task.id, updatedTask);
     if (task.status === 'To Do') {
-      toast.success(`Task added to ${updatedTask.status}`);
+      toast.success(`Task updated!`);
     }
     if (updatedTask.status === 'In Progress' || updatedTask.status === 'Completed') {
       toast.success(`Task ${updatedTask.status}`);
@@ -72,7 +73,7 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
       </>
       {isEditing &&
         <div className='fixed top-0 bottom-0 grid place-content-center left-0 right-0 bg-black/10 backdrop-blur-sm'>
-          <form className='flex flex-col justify-between max-w-md h-[350px] bg-[#fafafa] p-5 shadow lg rounded-lg'>
+          <form onSubmit={handleSave} className='flex flex-col justify-between max-w-md h-[350px] bg-[#fafafa] p-5 shadow lg rounded-lg'>
             <div className='grid'>
               <h2 className='text-center mb-5'>Edit Task</h2>
               <input
@@ -101,7 +102,7 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
             </div>
             <div className='grid grid-cols-2 gap-2'>
               <div>
-                <button onClick={handleSave} className="btn w-full bg-[#8C64FE] text-white hover:text-black">Done</button>
+                <button type='submit' className="btn w-full bg-[#8C64FE] text-white hover:text-black">Done</button>
               </div>
               <div>
                 <button onClick={handleCancel} className="btn w-full bg-[#8C64FE] text-white hover:text-black">Cancel</button>
