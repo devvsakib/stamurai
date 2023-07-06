@@ -25,7 +25,7 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
     setIsEditing(true);
   };
 
-  const handleSave = (e) => {
+  const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     const updatedTask = {
       title: updatedTitle,
