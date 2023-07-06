@@ -1,4 +1,3 @@
-import React from 'react';
 import TaskStore from './TaskStore';
 
 interface StoreContext {
@@ -14,3 +13,4 @@ export const useStore = (): StoreContext => {
     }
     return store;
 };
+
