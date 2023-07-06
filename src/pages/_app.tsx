@@ -1,4 +1,4 @@
-import React from 'react';
+import "../styles/globals.css";
 import { AppProps } from 'next/app';
 import { storeContext } from '../store/storeContext';
 import { useLocalStore } from 'mobx-react-lite';

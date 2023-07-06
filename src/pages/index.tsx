@@ -11,10 +11,10 @@ interface Task {
 
 const Home: React.FC = () => {
   return (
-    <div>
-      <h1>Task Management Application</h1>
-      <TaskList />
+    <div className='max-w-[1280px] mx-auto my-10'>
+      <h1 className='font-bold text-center text-3xl mb-10'>MyTask 24/7</h1>
       <TaskForm />
+      <TaskList />
     </div>
   );
 };
