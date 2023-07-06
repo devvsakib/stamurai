@@ -1,17 +1,20 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import { Provider } from 'mobx-react-lite';
-import TaskStore from '../store/TaskStore';
-
-const taskStore = TaskStore.create({
-  tasks: [],
-});
+import { storeContext } from '../store/storeContext';
+import { useLocalStore } from 'mobx-react-lite';
+import { TaskStore, Task } from '../store/TaskStore';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+  const store = useLocalStore(() => ({
+    taskStore: TaskStore.create({
+      tasks: [],
+    }),
+  }));
+
   return (
-    <Provider taskStore={taskStore}>
+    <storeContext.Provider value={store}>
       <Component {...pageProps} />
-    </Provider>
+    </storeContext.Provider>
   );
 };
 

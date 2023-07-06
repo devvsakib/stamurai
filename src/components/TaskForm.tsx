@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store/storeContext';
+import { Instance } from 'mobx-state-tree'; // Import the Instance type
+import { Task } from '../store/TaskStore'; // Import the Task type
 
 const TaskForm: React.FC = observer(() => {
   const { taskStore } = useStore();
@@ -11,12 +13,12 @@ const TaskForm: React.FC = observer(() => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newTask = {
+    const newTask = Task.create({
       id: Math.random().toString(),
       title,
       description,
       status,
-    };
+    });
 
     taskStore.addTask(newTask);
     setTitle('');

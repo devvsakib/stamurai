@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree';
 
-const Task = types
+export const Task = types
   .model('Task', {
     id: types.identifier,
     title: types.string,

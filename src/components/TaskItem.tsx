@@ -1,19 +1,28 @@
-import React from "react";
-import { Task } from "../store/TaskStore";
+import React from 'react';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '../store/storeContext';
 
 interface TaskItemProps {
-  task: Task;
-  onEdit: (task: Task) => void;
+  task: {
+    id: string;
+    title: string;
+    description: string;
+    status: string;
+  };
+  onEdit: (taskId: string) => void;
   onDelete: (taskId: string) => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete }) => {
+const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) => {
+  const { taskStore } = useStore();
+
   const handleEdit = () => {
-    onEdit(task);
+    onEdit(task.id);
   };
 
   const handleDelete = () => {
     onDelete(task.id);
+    taskStore.deleteTask(task.id);
   };
 
   return (
@@ -25,6 +34,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onEdit, onDelete }) => {
       <button onClick={handleDelete}>Delete</button>
     </div>
   );
-};
+});
 
 export default TaskItem;
