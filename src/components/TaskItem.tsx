@@ -28,24 +28,25 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
 
   return (
     <>
-      <div>
-        <h3>{task.title}</h3>
-        <p>{task.description}</p>
-        <p>Status: {task.status}</p>
-        <div className='mt-3'>
-
-          <button className='border-0 p-2 mr-2 px-4 bg-blue-400 text-white mb-5 rounded-sm bg-white/20' onClick={handleEdit}>Edit</button>
-          <button className='border-0 p-2 px-4 bg-blue-400 text-white mb-5 rounded-sm bg-white/20' onClick={handleDelete}>Delete</button>
+      <div className='bg-white shadow-md p-5 rounded-lg mb-6'>
+        <h3 className='text-xl font-semibold'>{task.title}</h3>
+        <p className='text-gray-500'>{task.description}</p>
+        <div className='flex gap-2 mt-10'>
+          <div>
+            <button className='border-0 bg-[#64a7fe] p-1 px-3 rounded-full text-sm text-white font-semibold' onClick={handleEdit}>Edit</button>
+          </div>
+          <div>
+            <button className='border-0 bg-[#8C64FE] p-1 px-3 rounded-full text-sm text-white font-semibold' onClick={handleDelete}>Delete</button>
+          </div>
         </div>
       </div>
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
         <form method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
           <p className="py-4">Press ESC key or click the button below to close</p>
-          <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
+          {/* <div className="modal-action">
             <button className="btn">Close</button>
-          </div>
+          </div> */}
         </form>
       </dialog>
     </>
