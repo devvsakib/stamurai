@@ -33,16 +33,18 @@ const TaskList: React.FC = observer(() => {
   };
 
   return (
-    <div>
-      <h2>Task List</h2>
-      {taskStore.tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onEdit={handleEditTask}
-          onDelete={handleDeleteTask}
-        />
-      ))}
+    <div className='mb-10'>
+      <h2 className='text-xl mt-10 border-b-2 border-orange-300 pb-2 mb-10'>Task List</h2>
+      <div className='grid gap-5'>
+        {taskStore.tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            onEdit={handleEditTask}
+            onDelete={handleDeleteTask}
+          />
+        ))}
+      </div>
     </div>
   );
 });

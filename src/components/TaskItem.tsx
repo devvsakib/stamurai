@@ -32,8 +32,11 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
         <h3>{task.title}</h3>
         <p>{task.description}</p>
         <p>Status: {task.status}</p>
-        <button onClick={handleEdit}>Edit</button>
-        <button onClick={handleDelete}>Delete</button>
+        <div className='mt-3'>
+
+          <button className='border-0 p-2 mr-2 px-4 bg-blue-400 text-white mb-5 rounded-sm bg-white/20' onClick={handleEdit}>Edit</button>
+          <button className='border-0 p-2 px-4 bg-blue-400 text-white mb-5 rounded-sm bg-white/20' onClick={handleDelete}>Delete</button>
+        </div>
       </div>
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
         <form method="dialog" className="modal-box">
