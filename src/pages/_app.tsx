@@ -1,6 +1,18 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import React from 'react';
+import { AppProps } from 'next/app';
+import { Provider } from 'mobx-react-lite';
+import TaskStore from '../store/TaskStore';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+const taskStore = TaskStore.create({
+  tasks: [],
+});
+
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+  return (
+    <Provider taskStore={taskStore}>
+      <Component {...pageProps} />
+    </Provider>
+  );
+};
+
+export default MyApp;

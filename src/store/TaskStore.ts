@@ -1,28 +1,41 @@
-import { types, Instance } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 
-const Task = types.model('Task', {
-  id: types.identifier,
-  title: types.string,
-  description: types.string,
-  status: types.string,
-});
+const Task = types
+  .model('Task', {
+    id: types.identifier,
+    title: types.string,
+    description: types.string,
+    status: types.string,
+  })
+  .actions((self) => ({
+    setTitle(title: string) {
+      self.title = title;
+    },
+    setDescription(description: string) {
+      self.description = description;
+    },
+    setStatus(status: string) {
+      self.status = status;
+    },
+  }));
 
-const TaskStore = types
-  .model('TaskStore', {
+  export const TaskStore = types.model('TaskStore', {
     tasks: types.array(Task),
   })
   .actions((self) => ({
-    addTask(task: Instance<typeof Task>) {
+    addTask(task: typeof Task.Type) {
       self.tasks.push(task);
     },
-    editTask(taskId: string, updatedTask: Instance<typeof Task>) {
-      const taskIndex = self.tasks.findIndex((task) => task.id === taskId);
-      if (taskIndex !== -1) {
-        self.tasks[taskIndex] = updatedTask;
+    editTask(taskId: string, updatedTask: typeof Task.Type) {
+      const task = self.tasks.find((t) => t.id === taskId);
+      if (task) {
+        task.setTitle(updatedTask.title);
+        task.setDescription(updatedTask.description);
+        task.setStatus(updatedTask.status);
       }
     },
     deleteTask(taskId: string) {
-      const taskIndex = self.tasks.findIndex((task) => task.id === taskId);
+      const taskIndex = self.tasks.findIndex((t) => t.id === taskId);
       if (taskIndex !== -1) {
         self.tasks.splice(taskIndex, 1);
       }
