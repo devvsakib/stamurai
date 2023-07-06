@@ -37,7 +37,7 @@ const TaskList: React.FC = observer(() => {
   return (
     <div className='mb-10'>
       <h2 className='text-xl mt-10 border-b-2 border-orange-300 pb-2 mb-10'>Task List</h2>
-      <div className='grid grid-cols-3 gap-10'>
+      <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-10'>
         {renderTasksByStatus('To Do')}
         {renderTasksByStatus('In Progress')}
         {renderTasksByStatus('Completed')}
