@@ -22,7 +22,6 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
 
   const handleEdit = () => {
     setIsEditing(true);
-    window.my_modal_5.showModal()
   };
 
   const handleSave = () => {
@@ -48,8 +47,9 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
   };
 
   return (
-    <>
-      <div className='bg-white shadow-md p-5 rounded-lg mb-6'>
+    <div className='bg-white shadow-md p-5 rounded-lg mb-6'>
+
+      <>
         <h3 className='text-xl font-semibold'>{task.title}</h3>
         <p className='text-gray-500'>{task.description}</p>
         <div className='flex gap-2 mt-10'>
@@ -60,38 +60,48 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
             <button className='border-0 bg-[#8C64FE] p-1 px-3 rounded-full text-sm text-white font-semibold' onClick={handleDelete}>Delete</button>
           </div>
         </div>
-      </div>
-      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-        <form onSubmit={handleSave} method="dialog" className="modal-box grid gap-5 py-20">
-          <input
-            className='shadow-lg border py-2 rounded-sm px-3'
-            type="text"
-            placeholder="Title"
-            value={updatedTitle}
-            onChange={(e) => setUpdatedTitle(e.target.value)}
-          />
-          <input
-            className='shadow-lg border h-24 py-2 rounded-sm px-3'
-            type="text"
-            placeholder="Description"
-            value={updatedDescription}
-            onChange={(e) => setUpdatedDescription(e.target.value)}
-          />
-          <select
-            className='p-2 rounded-sm shadow-lg bg-transparent'
-            value={updatedStatus}
-            onChange={(e) => setUpdatedStatus(e.target.value)}
-          >
-            <option value="To Do">To Do</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
-          <div className="modal-action">
-            <button type='submit' className="btn w-full bg-[#8C64FE] text-white hover:text-black">Done</button>
-          </div>
-        </form>
-      </dialog>
-    </>
+      </>
+      {isEditing &&
+        <div className='fixed top-0 bottom-0 grid place-content-center left-0 right-0 bg-black/10 backdrop-blur-sm'>
+          <form className='flex flex-col justify-between max-w-md h-[350px] bg-[#fafafa] p-5 shadow lg rounded-lg'>
+            <div className='grid'>
+              <h2 className='text-center mb-5'>Edit Task</h2>
+              <input
+                className='shadow-lg border py-2 rounded-sm px-3 mb-2'
+                type='text'
+                placeholder='Title'
+                value={updatedTitle}
+                onChange={(e) => setUpdatedTitle(e.target.value)}
+              />
+              <input
+                className='shadow-lg border py-2 rounded-sm px-3 mb-2'
+                type='text'
+                placeholder='Description'
+                value={updatedDescription}
+                onChange={(e) => setUpdatedDescription(e.target.value)}
+              />
+              <select
+                className='p-2 rounded-sm shadow-lg bg-transparent mb-2'
+                value={updatedStatus}
+                onChange={(e) => setUpdatedStatus(e.target.value)}
+              >
+                <option value='To Do'>To Do</option>
+                <option value='In Progress'>In Progress</option>
+                <option value='Completed'>Completed</option>
+              </select>
+            </div>
+            <div className='grid grid-cols-2 gap-2'>
+              <div>
+                <button onClick={handleSave} className="btn w-full bg-[#8C64FE] text-white hover:text-black">Done</button>
+              </div>
+              <div>
+                <button onClick={handleCancel} className="btn w-full bg-[#8C64FE] text-white hover:text-black">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      }
+    </div>
   );
 });
 
