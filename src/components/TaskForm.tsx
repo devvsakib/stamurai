@@ -1,51 +1,55 @@
 import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 import { useStore } from '../store/storeContext';
 
-const TaskForm: React.FC = () => {
+const TaskForm: React.FC = observer(() => {
   const { taskStore } = useStore();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value);
-  };
+  const [status, setStatus] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     const newTask = {
       id: Math.random().toString(),
       title,
       description,
-      status: 'To Do',
+      status,
     };
+
     taskStore.addTask(newTask);
     setTitle('');
     setDescription('');
+    setStatus('');
   };
 
   return (
     <div>
-      <h2>Add Task</h2> 
+      <h2>Add Task</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Title"
           value={title}
-          onChange={handleTitleChange}
+          onChange={(e) => setTitle(e.target.value)}
         />
-        <textarea
+        <input
+          type="text"
           placeholder="Description"
           value={description}
-          onChange={handleDescriptionChange}
+          onChange={(e) => setDescription(e.target.value)}
         />
-        <button type="submit">Add</button>
+        <input
+          type="text"
+          placeholder="Status"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        />
+        <button type="submit">Add Task</button>
       </form>
     </div>
   );
-}
+});
 
 export default TaskForm;
