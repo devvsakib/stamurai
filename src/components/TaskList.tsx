@@ -24,13 +24,13 @@ const TaskList: React.FC = observer(() => {
   };
 
   const renderTasksByStatus = (status: string) => {
-    const tasks = taskStore.tasks.filter((task) => task.status === status);
+    const tasks = taskStore?.tasks?.filter((task) => task.status === status);
 
     return (
       <div className='bg-[#F6F5F8] p-5 rounded-lg'>
         <h2 className='mb-5 font-semibold'>{status} <span className='badge shadow'>{tasks.length}</span></h2>
         <div>
-          {tasks.map((task) => (
+          {tasks?.map((task) => (
             <TaskItem
               key={task.id}
               task={task}
