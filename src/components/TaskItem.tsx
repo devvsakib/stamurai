@@ -43,7 +43,7 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
     };
     
     onEdit(task.id, updatedTask);
-    window.my_modal_5.showModal();
+    setIsEditing(true);
   };
 
   const handleSave = (e: React.FormEvent) => {
