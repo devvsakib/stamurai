@@ -30,7 +30,7 @@ const TaskForm: React.FC = observer(() => {
     <div>
       {
         !showForm &&
-        <button className='border-0 p-2 px-4 bg-blue-400 text-white mb-5 rounded-sm bg-white/20' onClick={() => setShowForm(!showForm)}>Add Task</button>
+        <button className='border-0 p-2 px-4 bg-blue-400 text-white mb-5 rounded-sm' onClick={() => setShowForm(!showForm)}>Add Task</button>
       }
       {
         showForm &&

@@ -6,26 +6,8 @@ import TaskItem from './TaskItem';
 const TaskList: React.FC = observer(() => {
   const { taskStore } = useStore();
 
-  const handleEditTask = (taskId: string) => {
-    const task = taskStore.tasks.find((t) => t.id === taskId);
-    if (task) {
-      // const updatedTitle = prompt('Enter the updated title:', task.title);
-      // const updatedDescription = prompt(
-      //   'Enter the updated description:',
-      //   task.description
-      // );
-      // const updatedStatus = prompt('Enter the updated status:', task.status);
-
-      // if (updatedTitle && updatedDescription && updatedStatus) {
-      //   const updatedTask = {
-      //     ...task,
-      //     title: updatedTitle,
-      //     description: updatedDescription,
-      //     status: updatedStatus,
-      //   };
-      //   taskStore.editTask(taskId, updatedTask);
-      // }
-    }
+  const handleEditTask = (taskId: string, updatedTask: { title: string, description: string, status: string }) => {
+    taskStore.editTask(taskId, updatedTask);
   };
 
   const handleDeleteTask = (taskId: string) => {

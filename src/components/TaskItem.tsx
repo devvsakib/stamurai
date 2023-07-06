@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store/storeContext';
 
@@ -9,16 +9,37 @@ interface TaskItemProps {
     description: string;
     status: string;
   };
-  onEdit: (taskId: string) => void;
+  onEdit: (taskId: string, updatedTask: { title: string, description: string, status: string }) => void;
   onDelete: (taskId: string) => void;
 }
 
 const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) => {
   const { taskStore } = useStore();
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedTitle, setUpdatedTitle] = useState(task.title);
+  const [updatedDescription, setUpdatedDescription] = useState(task.description);
+  const [updatedStatus, setUpdatedStatus] = useState(task.status);
 
   const handleEdit = () => {
-    onEdit(task.id);
+    setIsEditing(true);
     window.my_modal_5.showModal()
+  };
+
+  const handleSave = () => {
+    const updatedTask = {
+      title: updatedTitle,
+      description: updatedDescription,
+      status: updatedStatus,
+    };
+    onEdit(task.id, updatedTask);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setUpdatedTitle(task.title);
+    setUpdatedDescription(task.description);
+    setUpdatedStatus(task.status);
+    setIsEditing(false);
   };
 
   const handleDelete = () => {
@@ -41,12 +62,33 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
         </div>
       </div>
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-        <form method="dialog" className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Press ESC key or click the button below to close</p>
-          {/* <div className="modal-action">
-            <button className="btn">Close</button>
-          </div> */}
+        <form onSubmit={handleSave} method="dialog" className="modal-box grid gap-5 py-20">
+          <input
+            className='shadow-lg border py-2 rounded-sm px-3'
+            type="text"
+            placeholder="Title"
+            value={updatedTitle}
+            onChange={(e) => setUpdatedTitle(e.target.value)}
+          />
+          <input
+            className='shadow-lg border h-24 py-2 rounded-sm px-3'
+            type="text"
+            placeholder="Description"
+            value={updatedDescription}
+            onChange={(e) => setUpdatedDescription(e.target.value)}
+          />
+          <select
+            className='p-2 rounded-sm shadow-lg bg-transparent'
+            value={updatedStatus}
+            onChange={(e) => setUpdatedStatus(e.target.value)}
+          >
+            <option value="To Do">To Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+          <div className="modal-action">
+            <button type='submit' className="btn w-full bg-[#8C64FE] text-white hover:text-black">Done</button>
+          </div>
         </form>
       </dialog>
     </>
