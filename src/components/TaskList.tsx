@@ -2,13 +2,22 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store/storeContext';
 import TaskItem from './TaskItem';
-
+interface UpdatedTask {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  setTitle(title: string): void;
+  setDescription(description: string): void;
+  setStatus(status: string): void;
+}
 const TaskList: React.FC = observer(() => {
   const { taskStore } = useStore();
 
-  const handleEditTask = (taskId: string, updatedTask: { title: string, description: string, status: string }) => {
+  const handleEditTask = (taskId: string, updatedTask: UpdatedTask & { setTitle(title: string): void; setDescription(description: string): void; setStatus(status: string): void; }) => {
     taskStore.editTask(taskId, updatedTask);
   };
+
 
   const handleDeleteTask = (taskId: string) => {
     taskStore.deleteTask(taskId);

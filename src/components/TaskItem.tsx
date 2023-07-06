@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store/storeContext';
+import { Task } from '../store/TaskStore';
 import toast from 'react-hot-toast';
 
+interface UpdatedTask {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  setTitle(title: string): void;
+  setDescription(description: string): void;
+  setStatus(status: string): void;
+}
+
 interface TaskItemProps {
-  task: {
-    id: string;
-    title: string;
-    description: string;
-    status: string;
-  };
-  onEdit: (taskId: string, updatedTask: { title: string, description: string, status: string }) => void;
+  task: typeof Task.Type;
+  onEdit: (taskId: string, updatedTask: UpdatedTask & { setTitle(title: string): void; setDescription(description: string): void; setStatus(status: string): void; }) => void;
   onDelete: (taskId: string) => void;
 }
 
@@ -22,15 +28,44 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
   const [updatedStatus, setUpdatedStatus] = useState(task.status);
 
   const handleEdit = () => {
-    setIsEditing(true);
+    const updatedTask: UpdatedTask & {
+      setTitle(title: string): void;
+      setDescription(description: string): void;
+      setStatus(status: string): void;
+    } = {
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      setTitle: () => {},
+      setDescription: () => {},
+      setStatus: () => {},
+    };
+    
+    onEdit(task.id, updatedTask);
+    // window.my_modal_5.showModal();
   };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    const updatedTask = {
+    const updatedTask: UpdatedTask & {
+      setTitle(title: string): void;
+      setDescription(description: string): void;
+      setStatus(status: string): void;
+    } = {
+      id: task.id,
       title: updatedTitle,
       description: updatedDescription,
       status: updatedStatus,
+      setTitle: (title: string) => {
+        setUpdatedTitle(title);
+      },
+      setDescription: (description: string) => {
+        setUpdatedDescription(description);
+      },
+      setStatus: (status: string) => {
+        setUpdatedStatus(status);
+      },
     };
     onEdit(task.id, updatedTask);
     if (task.status === 'To Do') {

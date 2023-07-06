@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { types, applySnapshot } from 'mobx-state-tree';
 
 export const Task = types
   .model('Task', {
@@ -19,7 +19,8 @@ export const Task = types
     },
   }));
 
-  export const TaskStore = types.model('TaskStore', {
+export const TaskStore = types
+  .model('TaskStore', {
     tasks: types.array(Task),
   })
   .actions((self) => ({
@@ -29,11 +30,9 @@ export const Task = types
     editTask(taskId: string, updatedTask: typeof Task.Type) {
       const task = self.tasks.find((t) => t.id === taskId);
       if (task) {
-        task.setTitle(updatedTask.title);
-        task.setDescription(updatedTask.description);
-        task.setStatus(updatedTask.status);
+        applySnapshot(task, updatedTask);
       }
-    },
+    },    
     deleteTask(taskId: string) {
       const taskIndex = self.tasks.findIndex((t) => t.id === taskId);
       if (taskIndex !== -1) {
@@ -41,5 +40,4 @@ export const Task = types
       }
     },
   }));
-
 export default TaskStore;
