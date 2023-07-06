@@ -13,6 +13,16 @@ const TaskForm: React.FC = observer(() => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!title) {
+      toast.error('Title is required');
+      return;
+    }
+    if (!description) {
+      toast.error('Description is required');
+      return;
+    }
+
     const newTask = Task.create({
       id: Math.random().toString(),
       title,

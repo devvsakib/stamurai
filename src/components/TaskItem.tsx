@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store/storeContext';
+import toast from 'react-hot-toast';
 
 interface TaskItemProps {
   task: {
@@ -31,6 +32,12 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
       status: updatedStatus,
     };
     onEdit(task.id, updatedTask);
+    if (task.status === 'To Do') {
+      toast.success(`Task added to ${updatedTask.status}`);
+    }
+    if (updatedTask.status === 'In Progress' || updatedTask.status === 'Completed') {
+      toast.success(`Task ${updatedTask.status}`);
+    }
     setIsEditing(false);
   };
 
@@ -38,12 +45,14 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, onEdit, onDelete }) 
     setUpdatedTitle(task.title);
     setUpdatedDescription(task.description);
     setUpdatedStatus(task.status);
+    toast.error('Cancelled');
     setIsEditing(false);
   };
 
   const handleDelete = () => {
     onDelete(task.id);
     taskStore.deleteTask(task.id);
+    toast.success('Task deleted successfully');
   };
 
   return (
