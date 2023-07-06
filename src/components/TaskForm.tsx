@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../store/storeContext';
-import { Instance } from 'mobx-state-tree'; // Import the Instance type
-import { Task } from '../store/TaskStore'; // Import the Task type
+import { Task } from '../store/TaskStore';
 
 const TaskForm: React.FC = observer(() => {
   const { taskStore } = useStore();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('To Do'); // Set the default value to 'To Do'
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +22,7 @@ const TaskForm: React.FC = observer(() => {
     taskStore.addTask(newTask);
     setTitle('');
     setDescription('');
-    setStatus('');
+    setStatus('To Do'); // Reset the status to 'To Do' after submission
   };
 
   return (
@@ -42,12 +41,11 @@ const TaskForm: React.FC = observer(() => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Status"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        />
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="To Do">To Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
         <button type="submit">Add Task</button>
       </form>
     </div>
@@ -55,3 +53,4 @@ const TaskForm: React.FC = observer(() => {
 });
 
 export default TaskForm;
+
